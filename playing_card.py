@@ -1,3 +1,5 @@
+import random
+
 class PlayingCard:
     """A playing card class"""
     
@@ -19,3 +21,34 @@ class PlayingCard:
         if not isinstance(other, PlayingCard):
             return False
         return self.rank == other.rank and self.suit == other.suit
+
+class Deck:
+    """A deck of 52 playing cards"""
+    
+    def __init__(self):
+        self.cards = [PlayingCard(rank, suit) for suit in PlayingCard.SUITS for rank in PlayingCard.RANKS]
+    
+    def shuffle(self):
+        random.shuffle(self.cards)
+    
+    def draw_card(self):
+        if not self.cards:
+            raise ValueError("No cards left in the deck")
+        return self.cards.pop()
+
+class Hand:
+    """A hand of playing cards"""
+    
+    def __init__(self):
+        self.cards = []
+    
+    def add_card(self, card):
+        if not isinstance(card, PlayingCard):
+            raise ValueError("Only PlayingCard instances can be added")
+        self.cards.append(card)
+    
+    def display_hand(self):
+        return ", ".join(str(card) for card in self.cards)
+    
+    def card_count(self):
+        return len(self.cards)
